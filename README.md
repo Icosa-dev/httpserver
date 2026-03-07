@@ -1,5 +1,5 @@
 # httpserver
 
-A basic HTTP server implemented in Rust. Based on the
-final example project provided in *The Rust Programming
-Language* book.
+A basic multithreaded HTTP server written in Rust. 
+Initially based on the final project of `The Rust
+Programing Language` book.
