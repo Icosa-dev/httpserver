@@ -42,7 +42,7 @@
 use std::error::Error;
 use std::time::Duration;
 
-use tokio::fs::{self, File};
+use tokio::fs;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::time::sleep;
