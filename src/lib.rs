@@ -7,6 +7,8 @@ use std::{
 use anyhow::{Context, Result};
 use serde::{Deserialize, ser::Error};
 
+pub mod log;
+
 #[deprecated]
 pub struct ThreadPool {
     workers: Vec<Worker>,

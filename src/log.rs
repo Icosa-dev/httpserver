@@ -1,13 +1,20 @@
-use tokio::{fs::File, io::AsyncWriteExt};
+use tokio::{
+    fs::File,
+    io::AsyncWriteExt,
+};
 
 #[derive(PartialEq)]
 pub enum LogStatus {
     Ok,
     Warning,
-    Error
+    Error,
 }
 
-pub async fn log(message: &str, status: LogStatus, mut outfile: File) -> () {
+const LOG_FILE_PATH: &str = "serverlogs.txt";
+
+pub async fn log(message: &str, status: LogStatus) -> () {
+    let outfile = File::open(LOG_FILE_PATH).await;
+
     let status_str = match status {
         LogStatus::Ok => r"[ \e[0;32mOK\e[0m ]",
         LogStatus::Warning => r"[ \e[0;33WARNING\e[0m ]",
@@ -16,8 +23,10 @@ pub async fn log(message: &str, status: LogStatus, mut outfile: File) -> () {
 
     let log_message = format!("{status_str} {message}");
 
-    let _ = outfile.write_all(log_message.as_bytes()).await;
-    
+    if let Ok(mut file) = outfile {
+        let _ = file.write_all(log_message.as_bytes());
+    }
+
     if status == LogStatus::Ok || status == LogStatus::Warning {
         println!("{}", log_message);
     } else {

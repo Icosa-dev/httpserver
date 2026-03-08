@@ -42,12 +42,13 @@
 use std::error::Error;
 use std::time::Duration;
 
-use tokio::fs;
+use tokio::fs::{self, File};
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::time::sleep;
 
 use httpserver::get_server_config;
+use httpserver::log::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -55,7 +56,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let listener = TcpListener::bind(server_config.get_socket()).await?;
     // TODO: Add logging instead of print
-    println!("Server running on 127.0.0.1:7878");
+    log("Server running on 127.0.0.1:7878", LogStatus::Ok).await;
 
     loop {
         let (socket, _) = listener.accept().await?;
